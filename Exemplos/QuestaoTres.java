@@ -6,18 +6,21 @@ public class QuestaoTres {
         Scanner ent = new Scanner(System.in);
         Random ran = new Random();
         int y;
-        int tentativas = 0;
+        int tentativas = 3;
         int x = ran.nextInt(11);
+        System.out.println("Tente advinhar o número: ");
         do {
-            System.out.println("Tente advinhar o número: ");
+            tentativas--;
             y = ent.nextInt();
             if (x==y){
                 System.out.println("Acertou!");
                 break;
+            }else if(tentativas==0){
+                System.out.println("Você Perdeu!");
             }else{
                 System.out.println("Errou, tente outra vez!");
             }
-            tentativas++;
-        }while(tentativas < 3);
+        }while(tentativas > 0);
+        System.out.println("O número era: " + x);
     }
 }

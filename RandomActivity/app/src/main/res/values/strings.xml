@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ExemploActivity</string>
+    <string name="lblButton">Mudar o Texto</string>
+    <string name="lblErrou">Errou. Tente Novamente!</string>
+    <string name="lblAcertou">Acertou. Você Ganhou!</string>
+    <string name="lblFim">Errou. Fim de Jogo!</string>
+    <string name="lblNumero">O número é: %1$s</string>
+    <string name="lblNovo">Novo Jogo</string>
+    <string name="lblVazia"></string>
+    <string name="lblEnviar">Enviar</string>
+    <string name="lblTente">Tente Advinhar o Número</string>
+    <string name="lblNum">O número é: </string>
+</resources>
