@@ -1,68 +1,70 @@
 package com.example.alunos.randomactivity;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText userInput;
-    TextView etiqueta;
+    public int x, y, tentativas;
     TextView numero;
-    TextView botao;
 
-    Random ran = new Random();
-    int x;
-    int tentativas = 3;
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        userInput = findViewById(R.id.editText);
-        etiqueta  = findViewById(R.id.textView);
-        botao  = findViewById(R.id.button);
-        numero = (TextView) findViewById(R.id.textView2);
+        Random ran = new Random();
         x = ran.nextInt(11);
     }
 
-
-    public void jogo(View args) {
-        String y = userInput.getText().toString();
-        int n = 0;
-        if(y.matches("")){
-            tentativas = -1;
+    public void jogar(View args) {
+        tentativas --;
+        numero = findViewById(R.id.numero);
+        y = Integer.parseInt(numero.getText().toString());
+        if  (x == y) {
+            this.notificacao("Você ganhou!", String.format("O número era: %d. Deseja jogar novamente?", x));
         } else {
-            n = Integer.parseInt(y);
+            Toast.makeText(getApplicationContext(),"Você errou, tente novamente!", Toast.LENGTH_SHORT).show();
         }
-        String num = Integer.toString(x);
-
-
-        tentativas--;
-        if (x == n) {
-            etiqueta.setText(getResources().getString(R.string.lblAcertou));
-            numero.setText(getResources().getString(R.string.lblNumero,num));
-            botao.setText(getResources().getString(R.string.lblNovo));
-            tentativas = -1;
-        } else if(tentativas==0){
-            etiqueta.setText(getResources().getString(R.string.lblFim));
-            numero.setText(num);
-            botao.setText(getResources().getString(R.string.lblNovo));
-            tentativas--;
-        } else if(tentativas<0){
-            x = ran.nextInt(11);
-            tentativas = 3;
-            botao.setText(getResources().getString(R.string.lblEnviar));
-            etiqueta.setText(getResources().getString(R.string.lblTente));
-            numero.setText(getResources().getString(R.string.lblNum));
-
-        } else {
-            etiqueta.setText(getResources().getString(R.string.lblErrou));
+        if (tentativas<0) {
+            this.notificacao("Você perdeu!", String.format("O número era: %d. Deseja jogar novamente?", x));
         }
-        userInput.setText(getResources().getString(R.string.lblVazia));
+    }
+
+    public void gerador() {
+        Random ran = new Random();
+        x = ran.nextInt(11);
+        numero.setText("");
+        tentativas = 2;
+    }
+
+    public void notificacao(String title, String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(title);
+        builder.setMessage(msg);
+
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                gerador();
+            }
+        });
+
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                finish();
+                System.exit(0);
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
