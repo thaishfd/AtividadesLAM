@@ -1,68 +1,83 @@
 package com.example.alunos.randomactivity;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText userInput;
-    TextView etiqueta;
     TextView numero;
     TextView botao;
 
-    Random ran = new Random();
-    int x;
-    int tentativas = 3;
+    public int x, tentativas;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        userInput = findViewById(R.id.editText);
-        etiqueta  = findViewById(R.id.textView);
-        botao  = findViewById(R.id.button);
-        numero = (TextView) findViewById(R.id.textView2);
-        x = ran.nextInt(11);
+        numero = findViewById(R.id.numero);
     }
 
+    public void random(){
+        int tentativas = 0;
+        Random ran = new Random();
+        x = ran.nextInt(101);
+    }
 
     public void jogo(View args) {
-        String y = userInput.getText().toString();
-        int n = 0;
-        if(y.matches("")){
-            tentativas = -1;
-        } else {
-            n = Integer.parseInt(y);
+        int y = Integer.parseInt(numero.getText().toString());
+        tentativas ++;
+
+        if (x != y) {
+            if (x > y) {
+                Toast.makeText(getApplicationContext(), "Você errou! O número é maior", Toast.LENGTH_SHORT).show();
+            } else if (x < y) {
+                Toast.makeText(getApplicationContext(), "Você errou! O número é menor", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            this.notificacao("Você Ganhou!", String.format("Número de tentativas: %d. Deseja jogar novamente?", tentativas));
+            salvar(tentativas, y);
         }
-        String num = Integer.toString(x);
-
-
-        tentativas--;
-        if (x == n) {
-            etiqueta.setText(getResources().getString(R.string.lblAcertou));
-            numero.setText(getResources().getString(R.string.lblNumero,num));
-            botao.setText(getResources().getString(R.string.lblNovo));
-            tentativas = -1;
-        } else if(tentativas==0){
-            etiqueta.setText(getResources().getString(R.string.lblFim));
-            numero.setText(num);
-            botao.setText(getResources().getString(R.string.lblNovo));
-            tentativas--;
-        } else if(tentativas<0){
-            x = ran.nextInt(11);
-            tentativas = 3;
-            botao.setText(getResources().getString(R.string.lblEnviar));
-            etiqueta.setText(getResources().getString(R.string.lblTente));
-            numero.setText(getResources().getString(R.string.lblNum));
-
-        } else {
-            etiqueta.setText(getResources().getString(R.string.lblErrou));
-        }
-        userInput.setText(getResources().getString(R.string.lblVazia));
     }
+
+    public void notificacao(String title, String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        builder.setTitle(title);
+        builder.setMessage(msg);
+
+        builder.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                random();
+            }
+        });
+        builder.setNegativeButton("NÃO", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                finish();
+                System.exit(0);
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void salvar(int Tentativas, int y){
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("Jogada", tentativas);
+        editor.putInt("Número", y);
+        editor.commit();
+    }
+
 }

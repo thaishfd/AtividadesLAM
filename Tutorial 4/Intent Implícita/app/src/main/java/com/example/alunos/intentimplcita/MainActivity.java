@@ -18,11 +18,14 @@ public class MainActivity extends AppCompatActivity {
     public void abrirUrl(View v){
         EditText url = findViewById(R.id.textUrl);
         String aUrl = url.getText().toString();
+        String http = "http://";
         if(aUrl.matches("")) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Digite um endereço web...", Toast.LENGTH_SHORT);
             toast.show();
             return;
+        }else if (!aUrl.contains("http://") || !aUrl.contains("https://")){
+            aUrl = http + aUrl;
         }
             Intent intencao = new Intent(Intent.ACTION_VIEW, Uri.parse(aUrl.toLowerCase()));
             startActivity(intencao);
