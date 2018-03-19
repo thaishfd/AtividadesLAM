@@ -2,6 +2,7 @@ package com.example.alunos.randomactivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     TextView numero;
     TextView botao;
 
-    public int x, tentativas;
+    public int x, tentativas, y;
 
     @Override
 
@@ -26,16 +27,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         numero = findViewById(R.id.numero);
+        random();
     }
 
     public void random(){
         int tentativas = 0;
         Random ran = new Random();
         x = ran.nextInt(101);
+        numero.setText("");
     }
 
     public void jogo(View args) {
-        int y = Integer.parseInt(numero.getText().toString());
+        y = Integer.parseInt(numero.getText().toString());
         tentativas ++;
 
         if (x != y) {
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }else {
             this.notificacao("Você Ganhou!", String.format("Número de tentativas: %d. Deseja jogar novamente?", tentativas));
-            salvar(tentativas, y);
+            salvar();
         }
     }
 
@@ -72,12 +75,20 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void salvar(int Tentativas, int y){
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("Jogada", tentativas);
+    public void salvar(){
+        SharedPreferences edita = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = edita.edit();
+        editor.putInt("Tentativas", tentativas);
         editor.putInt("Número", y);
         editor.commit();
+    }
+    public void exibir(View v){
+        Intent i = new Intent(MainActivity.this, Raking.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("tentativas", tentativas);
+        bundle.putInt("numero", y);
+        i.putExtras(bundle);
+        startActivity(i);
     }
 
 }
