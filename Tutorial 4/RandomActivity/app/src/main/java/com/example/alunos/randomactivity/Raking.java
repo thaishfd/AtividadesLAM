@@ -21,7 +21,12 @@ public class Raking extends AppCompatActivity {
         recuperar();
     }
 
+    public Object[] pilha;
+    public int posicaoPilha;
+
+
     public void recuperar(){
+
         Intent intencao = getIntent();
         Bundle pacote = intencao.getExtras();
 
@@ -30,12 +35,23 @@ public class Raking extends AppCompatActivity {
         String tentativas = Integer.toString(t);
         String numero = Integer.toString(y);
 
+        this.posicaoPilha = -1;
+        this.pilha = new Object[5];
+        empilhar(tentativas);
+    }
+
+    public void empilhar(String valor) {
+        if (this. posicaoPilha < this.pilha.length - 1) {
+            this.pilha[++posicaoPilha] = valor;
+        }
+    }
+
+    public void mostrar(){
         ListView lista = findViewById(R.id.listView);
         ArrayList<HashMap<String, String>> valores = new ArrayList<>();
-        for (int i = 0; i < 5; i++){
+        for (int i = 0; i < this.posicaoPilha + 1; i++){
             HashMap<String, String> item = new HashMap<>();
-            item.put("tentativas", tentativas);
-            item.put("numero", numero);
+            item.put("tentativas", pilha[posicaoPilha]);
             valores.add(item);
         }
         String[] chaves = {"tentativas", "numero"};
