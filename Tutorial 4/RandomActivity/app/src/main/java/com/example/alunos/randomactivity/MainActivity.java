@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     TextView botao;
 
     public int x, tentativas, y;
+    public String[] pilha;
+    public String[] pi;
+    public int posicaoPilha;
 
     @Override
 
@@ -28,13 +32,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         numero = findViewById(R.id.numero);
         random();
+
+        SharedPreferences edita = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = edita.edit();
+        editor.putInt("tentativas", tentativas);
+        editor.putInt("numero", y);
+        editor.commit();
     }
 
     public void random(){
-        int tentativas = 0;
+        tentativas = 0;
         Random ran = new Random();
         x = ran.nextInt(101);
         numero.setText("");
+        salvar();
     }
 
     public void jogo(View args) {
@@ -44,12 +55,14 @@ public class MainActivity extends AppCompatActivity {
         if (x != y) {
             if (x > y) {
                 Toast.makeText(getApplicationContext(), "Você errou! O número é maior", Toast.LENGTH_SHORT).show();
+                numero.setText("");
             } else if (x < y) {
                 Toast.makeText(getApplicationContext(), "Você errou! O número é menor", Toast.LENGTH_SHORT).show();
+                numero.setText("");
             }
         }else {
             this.notificacao("Você Ganhou!", String.format("Número de tentativas: %d. Deseja jogar novamente?", tentativas));
-            salvar();
+            random();
         }
     }
 
@@ -76,17 +89,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void salvar(){
-        SharedPreferences edita = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = edita.edit();
-        editor.putInt("Tentativas", tentativas);
-        editor.putInt("Número", y);
-        editor.commit();
+        String t = Integer.toString(tentativas);
+        String n = Integer.toString(y);
+
+        this.posicaoPilha = -1;
+        this.pilha = new String[5];
+        this.pi = new String[5];
+
+        if (this. posicaoPilha < this.pilha.length - 1) {
+            this.pilha[++posicaoPilha] = t;
+            this.pi[++posicaoPilha] = n;
+        }
     }
+
+
+
     public void exibir(View v){
         Intent i = new Intent(MainActivity.this, Raking.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("tentativas", tentativas);
-        bundle.putInt("numero", y);
+        bundle.putStringArray("tentativas", pilha);
+        bundle.putStringArray("numero", pi);
         i.putExtras(bundle);
         startActivity(i);
     }

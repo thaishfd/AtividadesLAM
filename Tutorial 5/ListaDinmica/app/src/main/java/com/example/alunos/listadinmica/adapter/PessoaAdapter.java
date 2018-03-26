@@ -29,12 +29,12 @@ public class PessoaAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return lista.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return lista.get(position);
     }
 
     @Override
