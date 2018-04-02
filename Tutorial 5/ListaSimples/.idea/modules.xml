@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Intent Implícita.iml" filepath="$PROJECT_DIR$/Intent Implícita.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Intent Implícita.iml" filepath="$PROJECT_DIR$/Intent Implícita.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ListaSimples.iml" filepath="$PROJECT_DIR$/ListaSimples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ListaSimples.iml" filepath="$PROJECT_DIR$/ListaSimples.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

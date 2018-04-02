@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">RandomActivity</string>
-    <string name="lblEnviar">Enviar</string>
-    <string name="lblTente">Tente Advinhar o Número</string>
-</resources>

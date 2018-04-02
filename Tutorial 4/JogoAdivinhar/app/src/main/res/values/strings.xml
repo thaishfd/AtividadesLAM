@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">JogoAdivinha</string>
+    <string name="lblButton">Adivinhar</string>
+    <string name="lblHello">Acertou</string>
+    <string name="lblHello2">Errou! </string>
+    <string name="lblHello3">Voltar </string>
+    <string name="lblHello4">Placar </string>
+</resources>
+
