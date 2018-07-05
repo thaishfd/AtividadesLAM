@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">AndroidQRCodeScanner</string>
-    <string name="lblName">Nome:</string>
-    <string name="lblAddress">Endereço:</string>
-</resources>
